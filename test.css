@@ -1,0 +1,222 @@
+@font-face {
+    font-family: 'fantasy';
+    src: url("./fonts/GRUNGE.ttf");
+}
+
+/* Указываем box sizing */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Убираем внутренние отступы */
+ul[class],
+ol[class] {
+    padding: 0;
+}
+
+/* Убираем внешние отступы */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul[class],
+ol[class],
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+    margin: 0;
+}
+
+/* Выставляем основные настройки по-умолчанию для body */
+body {
+    min-height: 0px;
+    scroll-behavior: smooth;
+    text-rendering: optimizeSpeed;
+    line-height: 1.5;
+}
+
+/* Удаляем стандартную стилизацию для всех ul и il, у которых есть атрибут class*/
+ul[class],
+ol[class] {
+    list-style: none;
+}
+
+/* Элементы a, у которых нет класса, сбрасываем до дефолтных стилей */
+a:not([class]) {
+    text-decoration-skip-ink: auto;
+}
+
+/* Упрощаем работу с изображениями */
+/* img {
+    max-width: 100%;
+    display: block;
+} */
+
+/* Указываем понятную периодичность в потоке данных у article*/
+article>*+* {
+    margin-top: 1em;
+}
+
+/* Наследуем шрифты для инпутов и кнопок */
+input,
+button,
+textarea,
+select {
+    font-family: 'fantasy';
+}
+
+/* Удаляем все анимации и переходы для людей, которые предпочитай их не использовать */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+
+
+.body {
+    width: 100vh;
+}
+
+/* .startPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    justify-content: space-between;
+    height: 100vh;
+    width: 100%;
+} */
+
+.st {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    justify-content: space-between;
+    height: 100vh;
+    width: 100%;
+}
+
+.winnerBtn{
+
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-family: 'fantasy';
+    width:100%;
+    background-color: burlywood;
+    border-radius: 50px;
+    border: 2px blue solid;
+    
+
+    
+}
+
+.btnBack{
+    font-family: 'fantasy';
+    width: 100%;
+    height: 10%;
+    border-radius: 50px;
+    min-height: 30px;
+}
+
+.btn {
+    font-family: 'fantasy';
+    height: 75px;
+    width: 350px;
+    border-radius: 50px;
+    margin: 20px;
+}
+
+.all__code {
+    display: flex;
+    align-items: center;
+    background-image: url(./img/ocnFon.jpg);
+    width: 100%;
+    height: 100%;
+
+}
+
+.text {
+    font-family: 'fantasy';
+    margin: 100px;
+    border: solid;
+}
+
+.play__desck {
+    display: flex;
+    flex-wrap: wrap;
+    width: 396px;
+    height: 396px;
+    margin: 20px;
+}
+
+.desck {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: gray;
+    /* background-image: url(./img/pole.png); */
+    width: 132px;
+    height: 132px;
+    border: solid;
+}
+
+.playScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    justify-content: space-between;
+    height: 100vh;
+    width: 100%;
+}
+
+.vh{
+    margin-top:10px;
+    margin-bottom: 10px;
+}
+
+.img {
+    margin-top: 10px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50px;
+}
+
+.statisticScreen {
+    width: 100vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.statisticScreen div {
+    font-family: 'fantasy';
+    margin: 30px;
+    width: 450px;
+    height: 120px;
+    border: 1px solid black;
+    border-radius: 30px;
+    background-color: gray;
+}
+
+p {
+    text-align: center;
+}

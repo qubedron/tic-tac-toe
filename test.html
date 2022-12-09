@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./test.css">
+    <title>test</title>
+    <link rel="stylesheet" href="./index.js">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+    <div class="all__code">
+
+        <div class="startPage st" v-show="startPage">
+            <div>
+                <img src="./img/crossNull.png" class="img">
+            </div>
+            <button class="btn" @click="goToPlay">
+                play
+            </button>
+            <button class="btn">
+                <a href="https://scalan.com/author/qubedron/">about me </a>
+            </button>
+            <button class="btn" @click="goToPravila">
+                regulations
+            </button>
+            <button class="btn" @click="goToStatistic">
+                statistics
+            </button>
+        </div> <!-- startPage -->
+
+        <div class="pravila st" v-show="pravila">
+            <div class="pravila startPage">
+                <div class="text">
+                    Players take turns putting 3×3 signs on the free cells of the field (one is always crosses, the
+                    other is always
+                    zeros). The first one to line up 3 of their pieces vertically, horizontally or diagonally wins.
+                    The first move is made by the player placing crosses.
+                </div>
+                <button class="btn" @click="goToMenu">
+                    назад
+                </button>
+            </div>
+            text-align: center;
+        </div>
+
+        <div class="playScreen st" v-show="playScreen">
+            <div class="play startPage">
+                <div class="winnerBtn">
+                    <p>Winner: <b><br>{{whoWinMessage}}</b></p>
+                </div>
+                <div class="play__desck">
+                    <div class="one desck" @click="UsersClick(0,0)">{{desk[0][0]}}</div>
+                    <div class="two desck" @click="UsersClick(0,1)">{{desk[0][1]}}</div>
+                    <div class="thre desck" @click="UsersClick(0,2)">{{desk[0][2]}}</div>
+                    <div class="four desck" @click="UsersClick(1,0)">{{desk[1][0]}}</div>
+                    <div class="five desck" @click="UsersClick(1,1)">{{desk[1][1]}}</div>
+                    <div class="six desck" @click="UsersClick(1,2)">{{desk[1][2]}}</div>
+                    <div class="seven desck" @click="UsersClick(2,0)">{{desk[2][0]}}</div>
+                    <div class="eight desck" @click="UsersClick(2,1)">{{desk[2][1]}}</div>
+                    <div class="nine desck" @click="UsersClick(2,2)">{{desk[2][2]}}</div>
+                </div>
+                <button class="btnBack vh" @click="goToPlay">
+                    Играть снова
+                </button>
+
+                <button class="btnBack" @click="goToMenu">
+                    назад
+                </button>
+            </div>
+        </div> <!-- playScreen -->
+
+
+        <div class="statisticScreen" v-show="statisticScreen">
+            <div class="X statisticDiv">
+                <p> Number of player wins: <b><br>{{statistics.winsX}}</b></p>
+            </div>
+            <div class="Y statisticDiv">
+                <p>Number of computer wins: <b><br>{{statistics.winsO}}</b></p>
+            </div>
+            <div class="draw statisticDiv">
+                <p>Number of draws: <b><br>{{statistics.noWins}}</b></p>
+            </div>
+            <button class="btn" @click="goToMenu">
+                назад
+            </button>
+        </div>
+
+    </div>
+
+    <script src="./vue.js/vue.js"></script>
+    <script>
+        let app = new Vue({
+            el: '.all__code',
+            data: {
+                startPage: true,
+                playScreen: false,
+                pravila: false,
+                statisticScreen: false,
+                arrCrossNull: 0,
+                desk: [
+                    ['', '', ''],
+                    ['', '', ''],
+                    ['', '', '']
+                ],
+                gameF: true,
+                whoWinMessage: '',
+                statistics: localStorage.getItem("statistics") ?
+                    JSON.parse(localStorage.getItem("statistics")) :
+                    {
+                        winsX: 0,
+                        winsO: 0,
+                        noWins: 0,
+                    }
+            },
+            methods: {
+                saveStatistic() {
+                    localStorage.setItem("statistics", JSON.stringify(this.statistics));
+                },
+                goToStatistic() {
+                    this.startPage = false;
+                    this.playScreen = false;
+                    this.pravila = false;
+                    this.statisticScreen = true;
+                },
+                goToMenu() {
+                    this.startPage = true;
+                    this.playScreen = false;
+                    this.pravila = false;
+                    this.statisticScreen = false;
+                },
+                goToPlay() {
+                    this.startPage = false;
+                    this.playScreen = true;
+                    this.pravila = false;
+                    this.statisticScreen = false;
+                    // 
+                    this.desk = [
+                        ['', '', ''],
+                        ['', '', ''],
+                        ['', '', '']
+                    ];
+                    this.gameF = true;
+                    this.whoWinMessage = '';
+                },
+                goToPravila() {
+                    this.startPage = false;
+                    this.playScreen = false;
+                    this.pravila = true;
+                    this.statisticScreen = false;
+                },
+
+                //// Проверка компютера
+                checkWinX(nL, nU) {
+                    ////Проверяем горизонтали
+                    if (this.desk[0][0] == nL && this.desk[0][1] == nL && this.desk[0][2] == nL) {
+                        this.desk[0][0] = nU;
+                        this.desk[0][1] = nU;
+                        this.desk[0][2] = nU;
+                        return true;
+                    }
+                    if (this.desk[1][0] == nL && this.desk[1][1] == nL && this.desk[1][2] == nL) {
+                        this.desk[1][0] = nU;
+                        this.desk[1][1] = nU;
+                        this.desk[1][2] = nU;
+                        return true;
+                    }
+                    if (this.desk[2][0] == nL && this.desk[2][1] == nL && this.desk[2][2] == nL) {
+                        this.desk[2][0] = nU;
+                        this.desk[2][1] = nU;
+                        this.desk[2][2] = nU;
+                        return true;
+                    }
+                    ////Провиряем вертикали
+                    if (this.desk[0][0] == nL && this.desk[1][0] == nL && this.desk[2][0] == nL) {
+                        this.desk[0][0] = nU;
+                        this.desk[1][0] = nU;
+                        this.desk[2][0] = nU;
+                        return true;
+                    }
+                    if (this.desk[0][1] == nL && this.desk[1][1] == nL && this.desk[2][1] == nL) {
+                        this.desk[0][1] = nU;
+                        this.desk[1][1] = nU;
+                        this.desk[2][1] = nU;
+                        return true;
+                    }
+                    if (this.desk[0][2] == nL && this.desk[1][2] == nL && this.desk[2][2] == nL) {
+                        this.desk[0][2] = nU;
+                        this.desk[1][2] = nU;
+                        this.desk[2][2] = nU;
+                        return true;
+                    }
+                    ////По диагонали
+                    if (this.desk[0][2] == nL && this.desk[1][1] == nL && this.desk[2][0] == nL) {
+                        this.desk[0][2] = nU;
+                        this.desk[1][1] = nU;
+                        this.desk[2][0] = nU;
+                        return true;
+                    }
+                    if (this.desk[0][0] == nL && this.desk[1][1] == nL && this.desk[2][2] == nL) {
+                        this.desk[0][0] = nU;
+                        this.desk[1][1] = nU;
+                        this.desk[2][2] = nU;
+                        return true;
+                    }
+                    return false;
+
+                },
+
+                UsersClick(row, column) {
+                    if (this.gameF == true && this.desk[row][column] == "") {
+                        // Ход человека
+                        this.desk[row][column] = "x";
+                        // Провверка конца игры
+                        if (this.checkWinX('x', 'X') == true) {
+                            //Вивести что виграл человек
+                            this.whoWinMessage="X"
+                            //Увеличить количество побед человека на 1
+                            this.gameF = false;
+                            this.statistics.winsX++;
+                            this.saveStatistic();
+                        }
+                        else {
+                            // Вичесление сколько всего осталось свободных клеточек
+                            let freeCellsCount = 0;
+                            for (let i = 0; i < this.desk.length; i++) {
+                                for (j = 0; j < this.desk[i].length; j++) {
+                                    if (this.desk[i][j] == "") {
+                                        freeCellsCount++;
+                                    }
+                                }
+                            }
+                            if (freeCellsCount > 0) {
+                                // Поиск клеточки для хода компютера
+                                let random__row = 0;
+                                let random__col = 0;
+                                do {
+                                    random__row = Math.floor(Math.random() * 3);
+                                    random__col = Math.floor(Math.random() * 3);
+                                } while (this.desk[random__col][random__row] != "");
+                                // Делаем ход компютерa
+                                this.desk[random__col][random__row] = "o";
+                                if (this.checkWinX('o', 'O') == true) {
+                                    console.log("компютер")
+
+                                    //Вивести что виграл компютер
+                                    this.whoWinMessage="O";
+                                    //Увеличить количество побед компютера на 1
+                                    this.gameF = false;
+                                    this.statistics.winsO++;
+                                    this.saveStatistic();
+                                }
+                            }
+                            else {
+                                //Свободных клеточек не осталось
+                                this.gameF = false;
+                                this.statistics.noWins++;
+                                this.whoWinMessage="----"
+                                this.saveStatistic();
+                            }
+                        }
+                    }
+                    this.$forceUpdate();
+                }
+
+            },
+        })
+    </script>
+
+</body>
+
+</html>
